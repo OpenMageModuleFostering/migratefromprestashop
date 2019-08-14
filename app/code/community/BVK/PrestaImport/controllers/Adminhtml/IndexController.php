@@ -15,15 +15,43 @@ class BVK_PrestaImport_Adminhtml_IndexController extends BVK_PrestaImportCommon
   public function importAction()
   {   
       $start=time();
-        $model = Mage::getModel('eav/entity_attribute')->getCollection()->addFieldToFilter('backend_model', 'catalog/category_attribute_backend_urlkey')->getFirstItem();
-        $model->setData('is_global', 0);
-        $model->save();
-        
-        $model = Mage::getModel('eav/entity_attribute')->getCollection()->addFieldToFilter('backend_model', 'catalog/product_attribute_backend_urlkey')->getFirstItem();
-        $model->setData('is_global', 0);
-        $model->save();
-        
         $this->loadImportData();
+        
+        $setup = new Mage_Eav_Model_Entity_Setup('core_setup');
+
+        $entityTypeId     = $setup->getEntityTypeId('customer');
+        $attributeSetId   = $setup->getDefaultAttributeSetId($entityTypeId);
+        $attributeGroupId = $setup->getDefaultAttributeGroupId($entityTypeId, $attributeSetId);
+
+        $setup->addAttribute('customer', 'prestashop_pass', array(
+            'input'         => 'text',
+            'type'          => 'text',
+            'label'         => 'Prestashop Password',
+            'visible'       => 0,
+            'required'      => 0,
+            'user_defined' => 1,
+        ));
+
+        $setup->addAttributeToGroup(
+         $entityTypeId,
+         $attributeSetId,
+         $attributeGroupId,
+         'prestashop_pass',
+         '999'  //sort_order
+        );
+
+        $oAttribute = Mage::getSingleton('eav/config')->getAttribute('customer', 'prestashop_pass');
+        $oAttribute->setData('used_in_forms', array('adminhtml_customer'));
+        $oAttribute->save();
+      
+        $attribute_code = "url_key"; 
+        $attribute = Mage::getSingleton("eav/config")->getAttribute('catalog_product',    $attribute_code);
+        $attribute->setData('is_global', 0);
+        $attribute->save();
+        $attribute = Mage::getSingleton("eav/config")->getAttribute('catalog_category',    $attribute_code);
+        $attribute->setData('is_global', 0);
+        $attribute->save();
+        $attribute = $attribute->getData();
       
         Mage::getModel('catalog/category')->getCollection()->delete();
         
@@ -36,6 +64,10 @@ class BVK_PrestaImport_Adminhtml_IndexController extends BVK_PrestaImportCommon
         foreach($xmlcategories->categories->category AS $c){
             $this->addCategory($c['id']);
         }
+        
+//        echo time()-$start;
+//        die();
+        
 //        echo time()-$start;
 //        die();
 //        Mage::getModel('catalog/manufacturer')->getCollection()->delete();
@@ -52,10 +84,10 @@ class BVK_PrestaImport_Adminhtml_IndexController extends BVK_PrestaImportCommon
             $this->addProduct($p['id']);
         }
         
-        
         Mage::getModel('customer/customer')->getCollection()->delete();
         
         $xmlcustomers=simplexml_load_string($this->loadURL('http://'.$this->apikey.'@'.$this->prestashopurl.'/api/customers'));
+        
         foreach($xmlcustomers->customers->customer AS $c){
             $this->addCustomer($c['id']);
         }

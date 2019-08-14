@@ -89,15 +89,30 @@ class BVK_PrestaImportCommon extends Mage_Adminhtml_Controller_Action{
         
         $categorydata=array();
         $categorydata['entity_id']=(String) $category->id;
-        $categorydata['path']=($id_parent==0)?"1":$parent->getPath().'/'.$id;
-        $categorydata['parent_id']=$id_parent;
+        $categorydata['path']=($id_parent==0)?$id:$parent->getPath().'/'.$id;
+        $categorydata['parent_id']=($id_parent==0)?"0":$id_parent;
         $categorydata['attribute_set_id']=Mage::getModel('catalog/category')->getDefaultAttributeSetId();
         $categorydata['is_active']=(String) $category->active;
         $categorydata['position']=(String) $category->position;
         $categorydata['level']=(String) $category->level_depth;
         $categorydata['display_mode'] = "PRODUCTS";
-        
+//        print_r($categorydata);
         $newcategory = Mage::getModel('catalog/category');
+        $newcategory->addData($categorydata);
+        
+        $newcategory->setStoreId(0);
+        if(isset($this->categoryimages[$id]) || $image){
+            $filepath=Mage::getBaseDir('media').DS.'catalog/category/'.$id.'_'.$imagename.'.jpg';
+            file_put_contents($filepath, $this->loadURL('http://'.$this->apikey.'@'.$this->prestashopurl.'/api/images/categories/'.$id));
+//            $newcategory->setStoreId(0);
+            $newcategory->addData(
+                    array(
+                        'image'=>$id.'_'.$imagename.'.jpg',
+                        'thumbnail'=>$id.'_'.$imagename.'.jpg'
+                        )
+                    );
+        }
+        $newcategory->save();
         
         $imagename='';
         foreach($this->slang AS $ids=>$lang){
@@ -152,20 +167,6 @@ class BVK_PrestaImportCommon extends Mage_Adminhtml_Controller_Action{
             }
         }
         
-        $newcategory->setStoreId(0);
-        if(isset($this->categoryimages[$id]) || $image){
-            $filepath=Mage::getBaseDir('media').DS.'catalog/category/'.$id.'_'.$imagename.'.jpg';
-            file_put_contents($filepath, $this->loadURL('http://'.$this->apikey.'@'.$this->prestashopurl.'/api/images/categories/'.$id));
-            $newcategory->setStoreId(0);
-            $newcategory->addData(
-                    array(
-                        'image'=>$id.'_'.$imagename.'.jpg',
-                        'thumbnail'=>$id.'_'.$imagename.'.jpg'
-                        )
-                    );
-            $newcategory->save();
-        }
-        
   }
   
   protected function addProduct($id){
@@ -186,7 +187,7 @@ class BVK_PrestaImportCommon extends Mage_Adminhtml_Controller_Action{
         $productdata['entity_id']=(String) $product->id;
         $productdata['path']=(String) $product->id_category_default."/".(String) $product->id;
         $productdata['parent_id']=(String) $product->id_category_default;
-        $productdata['is_active']=(String) $product->active;
+        $productdata['is_active']=(int) $product->active;
         $productdata['position']=(String) $product->position;
         $productdata['qty']=(String) $product->quantity;
         $productdata['weight']=(String) $product->weight;
@@ -396,12 +397,14 @@ class BVK_PrestaImportCommon extends Mage_Adminhtml_Controller_Action{
         $customerdata['website_id']=$this->websiteid;
         $customerdata['store_id']=$this->defaultlang;
         $customerdata['gender']=(String) $customer->id_gender;
+        $customerdata['prestashop_pass']=(String) $customer->passwd;
         try{
             $newcustomer->addData($customerdata);
             $newcustomer->save();
         }catch (Exception $e) {
             echo $e->getMessage();
         }
+        
   }
   
   protected function addAddress($id){
