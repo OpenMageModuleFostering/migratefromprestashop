@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<package>
+    <name>MigrateFromPrestashop</name>
+    <version>1.0.2</version>
+    <stability>stable</stability>
+    <license uri="http://opensource.org/licenses/osl-3.0.php">OSL</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Import your Prestashop site to Magento</summary>
+    <description>The extension uses the web service API of your Prestashop site to import the following data from a Prestashop site:&#xD;
+&#xD;
+-Categories&#xD;
+    Name&#xD;
+    Description&#xD;
+    URL&#xD;
+    Meta data&#xD;
+    Image&#xD;
+-Products&#xD;
+    Name&#xD;
+    Description&#xD;
+    Short description&#xD;
+    Price&#xD;
+    Wholesale Price&#xD;
+    Ean13&#xD;
+    Meta data&#xD;
+    URL&#xD;
+    Images&#xD;
+    Categories&#xD;
+    Attributes (As custom options)&#xD;
+-Customers&#xD;
+    Name&#xD;
+    Surname&#xD;
+    Email&#xD;
+    Birthday&#xD;
+    Addresses&#xD;
+&#xD;
+Where possible data for all languages are imported. You need to adjust your store locale accordingly for each language in your shop (System-&amp;gt; Configuration -&amp;gt; General -&amp;gt; Locale Options). &#xD;
+To use the module you need to create an API key in your Prestashop site and enter it into module configuration under System -&amp;gt; Configuration -&amp;gt;Prestashop Import.&#xD;
+The extension clears all categories, products and customers on your site to replace them with the imported data. &#xD;
+&#xD;
+It imports all the data at once, if you do not have enough server resources it is likely to time out as this is a very resource intensive process. You should also have the Magento installed on the same server to speed things up.&#xD;
+&#xD;
+The default currency on both shops should match.&#xD;
+&#xD;
+The extension is not yet stable and should be used with caution. This is a beta release, to use it you need to change your preferred state setting in the Magento Connect Manager in your admin panel.</description>
+    <notes>Applied fixes to the directory names. (PrestaImport instead of Prestaimport)&#xD;
+Added language specific URL for products &amp; categories.&#xD;
+Automatically apply a patch that changes category URLs to be multilingual.</notes>
+    <authors><author><name>Burhan Bavk&#x131;r</name><user>burhanbvk</user><email>magento@bvkyazilim.com</email></author></authors>
+    <date>2014-08-11</date>
+    <time>13:41:20</time>
+    <contents><target name="magecommunity"><dir name="BVK"><dir name="PrestaImport"><dir name="Block"><file name="AdminMain.php" hash="93cf4e339668d3b208ba43b7ddf3f5d0"/><file name="Myblock.php" hash="8ad39b48a5c2444a6f009ad54bcb469a"/></dir><dir name="Helper"><file name="Data.php" hash="e6ac0d610d355f5ef181e57fbb29a00e"/></dir><dir name="controllers"><dir name="Adminhtml"><file name="IndexController.php" hash="87cda8dbddc422a96599c5a3b69ac496"/><file name="common.php" hash="cf56c308081ab0514ed4f4d12b2018eb"/></dir><file name="IndexController.php" hash="ed6e7e0fd838a8edb8dd427399b87499"/></dir><dir name="etc"><file name="config.xml" hash="c2f69ef12259e189e8a02254149620ff"/><file name="system.xml" hash="89aa74c7e67130ea13ea5ea98b35c5fb"/></dir></dir></dir></target><target name="magedesign"><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="layout"><file name="prestaimport_main.xml" hash="0885f6a251abfe20179e7a9940afb217"/></dir><dir name="template"><dir name="prestaimport"><file name="importmain.phtml" hash="b88ba6c06ce86fb38428dc4e195d48b0"/></dir></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="BVK_PrestaImport.xml" hash="69d7536453499843ca7bcdd08dbc9b54"/></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.1.0</min><max>6.0.0</max></php></required></dependencies>
+</package>

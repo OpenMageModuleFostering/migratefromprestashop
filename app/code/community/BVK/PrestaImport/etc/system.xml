@@ -1,0 +1,44 @@
+<config>
+    <tabs>
+        <prestaimportconfig translate="label" module="prestaimport">
+            <label>Prestashop Import Configuration</label>
+            <sort_order>99999</sort_order>
+        </prestaimportconfig>
+    </tabs>
+    <sections>
+        <prestaimport_options translate="label" module="prestaimport">
+            <label>Prestashop Import Configuration</label>
+            <tab>prestaimportconfig</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <messages translate="label">
+                    <label>Prestashop Site Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <fields>
+                        <prestaimport_URL>
+                            <label>Import URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>                
+                        </prestaimport_URL>
+                        <prestaimport_apikey>
+                            <label>API Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>                
+                        </prestaimport_apikey>
+                    </fields> 
+                </messages>
+            </groups>
+        </prestaimport_options>
+    </sections>  
+</config>

@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/MigrateFromPrestashop",
+    "type": "magento-module",
+    "license": "OSL",
+    "homepage": "",
+    "description": "Import your Prestashop site to Magento",
+    "authors": [
+    {
+        "name": "Burhan Bavk\u0131r",
+        "email": "magento@bvkyazilim.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

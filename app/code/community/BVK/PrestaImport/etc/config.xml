@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<config>
+     <modules>
+        <BVK_PrestaImport>
+          <version>1.0.0</version>
+        </BVK_PrestaImport>
+     </modules>
+    <admin>
+         <routers>
+             <prestaimport>
+                <use>admin</use>
+                <args>
+                   <module>BVK_PrestaImport</module>
+                   <frontName>adminprestaimport</frontName>
+                </args>
+             </prestaimport>
+          </routers>
+     </admin>
+     <adminhtml>
+       <layout>
+          <updates>
+              <prestaimport>
+                  <file>prestaimport_main.xml</file>
+               </prestaimport>
+          </updates>
+       </layout>
+       <menu>
+          <prestaimport translate="title" module="adminhtml">
+             <title>Prestashop Import</title>
+             <sort_order>100</sort_order>
+             <children>
+                 <presta_simpledimport>
+                       <title>Simple Import</title>
+                       <action>adminprestaimport/adminhtml_index</action>
+                  </presta_simpledimport>
+              </children>
+           </prestaimport>
+        </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <prestaimport_options>
+                                            <title>Store Prestashop Import Module Section</title>
+                                        </prestaimport_options>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <global>
+         <blocks>
+             <prestaimport>
+                  <class>BVK_PrestaImport_Block</class>
+             </prestaimport>
+          </blocks>
+          <helpers>
+            <prestaimport>
+                <class>BVK_PrestaImport_Helper</class>
+            </prestaimport>
+        </helpers>
+    </global>
+</config>
