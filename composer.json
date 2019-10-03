@@ -1,7 +1,7 @@
 {
-    "name": "OpenMageModuleFostering\/MigrateFromPrestashop",
+    "name": "openmage-module-fostering\/migratefromprestashop",
     "type": "magento-module",
-    "license": "OSL",
+    "license": "OSL-3.0",
     "homepage": "",
     "description": "Import your Prestashop site to Magento",
     "authors": [
